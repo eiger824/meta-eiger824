@@ -16,5 +16,5 @@ do_install() {
 	install -m 0755 demotouch ${D}/${bindir}/demotouch
 }
 
-SRC_URI[md5sum] = "d872ed2ecb4dd1f6489767aee43c56a5"
-SRC_URI[sha256sum] = "0b488393f065d92e0990e59a41aa780b3aa455d6501398a504b4545d7f971d25"
+SRC_URI[md5sum] = "???"
+SRC_URI[sha256sum] = "???"
