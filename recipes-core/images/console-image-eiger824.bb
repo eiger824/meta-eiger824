@@ -6,6 +6,6 @@ LICENSE = "MIT"
 
 require ${HOME}/poky-morty/meta-rpi/images/qt5-image.bb
 
-IMAGE_INSTALL += "dummy"
+IMAGE_INSTALL += "dummy demotouch"
 
 export IMAGE_BASENAME = "console-image-eiger824"
