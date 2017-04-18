@@ -21,6 +21,14 @@ help() {
 	echo -e "-v\t--version\t\tShows version and exits"
 }
 
+# Initial arg check
+if [ $# -eq 0 ]
+then
+	echo "No input args."
+	help
+	exit 1
+fi
+
 # Parse args
 #for i in $@
 while [[ $# -gt 0 ]]
@@ -132,13 +140,6 @@ do
 	# Shift operator to get next one
 	shift
 done
-
-if [ $# -eq 0 ]
-then
-	echo "No input args."
-	help
-	exit 1
-fi
 
 # Create warriors group if non-existent
 groupadd $FTPGROUP &> /dev/null
