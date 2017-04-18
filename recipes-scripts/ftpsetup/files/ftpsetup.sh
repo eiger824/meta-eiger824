@@ -9,7 +9,7 @@ SERVERPARTADDR="/dev/sda2"
 FTPUSERLIST="/etc/vsftpd.user_list"
 FTPGROUP="warriors"
 
-VERSION=1.0
+VERSION=1.2
 
 help() {
 	echo "USAGE: $0 [ARGS]"
@@ -47,6 +47,8 @@ do
 				echo -e "\rFound '$FTPUSER', removing ...[OK]"
 				echo "Removing $FTPUSER's dir in FTP server ..."
 				rm -rf $MOUNTPOINT/FTPServer/$FTPUSER
+				echo "Removing '$FTPUSER' from $FTPUSERLIST"
+				echo "`cat $FTPUSERLIST | sed -e 's/'$FTPUSER'//' -e '/^\s*$/d'`" > $FTPUSERLIST
 				echo "Done!"
 				exit 0
 			else
@@ -131,8 +133,15 @@ do
 	shift
 done
 
+if [ $# -eq 0 ]
+then
+	echo "No input args."
+	help
+	exit 1
+fi
+
 # Create warriors group if non-existent
-groupadd $FTPGROUP
+groupadd $FTPGROUP &> /dev/null
 if [ "$?" == "0" ]
 then
 	echo "Added '$FTPGROUP'"
