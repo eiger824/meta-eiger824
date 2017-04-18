@@ -1,18 +1,20 @@
 #!/bin/bash
 
-set -e
+#set -e
 
 MOUNTPOINT="/media/ftpserver"
 SERVERDEVADDR="/dev/sda"
 SERVERPARTADDR="/dev/sda2"
 
 FTPUSERLIST="/etc/vsftpd.user_list"
+FTPGROUP="warriors"
 
 VERSION=1.0
 
 help() {
 	echo "USAGE: $0 [ARGS]"
 	echo "ARGS:"
+	echo -e "-d\t--delete USER\t\tDeletes USER"
 	echo -e "-n\t--new-user USER\t\tAdds USER with permissions to user ftp server"
 	echo -e "-m\t--mount-point DIR\tSets mount point for FTP server (defaults to $MOUNTPOINT)"
 	echo -e "-h\t--help\t\t\tShows this help and exits"
@@ -21,12 +23,40 @@ help() {
 
 # Parse args
 #for i in $@
-while [[ $# -gt 1 ]]
+while [[ $# -gt 0 ]]
 do
 	case $1 in
 	-h|--help)
 		help
 		exit
+	;;
+	-d|--delete)
+		if [[ -z "$2" ]]
+		then
+			echo "Error, missing user name"
+			help
+			exit 1
+		else
+			FTPUSER=$2
+			# Check if exists
+			id -u $FTPUSER &> /dev/null
+			if [ "$?" == "0" ]
+			then
+				echo -n "Found '$FTPUSER, removing ...'"
+				userdel -r $FTPUSER &> /dev/null
+				echo -e "\rFound '$FTPUSER', removing ...[OK]"
+				echo "Removing $FTPUSER's dir in FTP server ..."
+				rm -rf $MOUNTPOINT/FTPServer/$FTPUSER
+				echo "Done!"
+				exit 0
+			else
+				echo "Error, user '$FTPUSER' does not exist"
+				help
+				exit 1
+			fi
+		fi
+	# And shift
+	shift
 	;;
 	-n|--new-user)
 		if [[ -z "$2" ]]
@@ -50,7 +80,14 @@ do
 					read pass
 					case $pass in
 					y|Y)
-						passwd $FTPUSER
+						while(true)
+						do
+							passwd $FTPUSER
+							if [ "$?" == "0" ]
+							then
+								break
+							fi
+						done
 						break
 					;;
 					n|N)
@@ -93,6 +130,15 @@ do
 	# Shift operator to get next one
 	shift
 done
+
+# Create warriors group if non-existent
+groupadd $FTPGROUP
+if [ "$?" == "0" ]
+then
+	echo "Added '$FTPGROUP'"
+else
+	echo "'$FTPGROUP' already exists, skipping"
+fi
 
 if [[ -z "$FTPUSER" ]]
 then
@@ -162,12 +208,14 @@ do
 	case $ans in
 		y)
 			echo "Configuring..."
-			echo -e "\tChanging mode ..."
-			chmod 760 -R $MOUNTPOINT/FTPServer
+			echo -e "\tChanging mode to parent dir ..."
+			chmod 770 $MOUNTPOINT/FTPServer
+			echo -e "\tChanging mode to chroot dir ..."
+			chmod 740 $MOUNTPOINT/FTPServer/$FTPUSER
 			echo -e "\tChanging ownership for user '$FTPUSER'"
-			chown -R $FTPUSER. $MOUNTPOINT/FTPServer
-			echo -e "\tAdding group '$FTPUSER'"
-			usermod -G $FTPUSER $FTPUSER
+			chown -R $FTPUSER:$FTPGROUP $MOUNTPOINT/FTPServer/$FTPUSER
+			echo -e "\tAdding '$FTPUSER' to group '$FTPGROUP'"
+			usermod -G $FTPGROUP $FTPUSER
 			echo -e "\tRestarting vsftpd service ..."
 			systemctl restart vsftpd
 			echo "Done!"
