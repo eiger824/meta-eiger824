@@ -11,7 +11,7 @@ IMAGE_INSTALL += " \
 	demotouch \
 	mouseevents \
 	fallingblocks \
-	ftpsetup.sh \
+	ftpsetup \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"
