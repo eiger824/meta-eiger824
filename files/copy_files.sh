@@ -2,8 +2,8 @@
 
 set -e
 
-LOCAL_CONF=/home/$USER/poky-morty/build/conf/local.conf
-BBLAYERS_CONF=/home/$USER/poky-morty/build/conf/bblayers.conf
+LOCAL_CONF=/home/$USER/poky-morty/build-rpi3/conf/local.conf
+BBLAYERS_CONF=/home/$USER/poky-morty/build-rpi3/conf/bblayers.conf
 
 if [ -f $LOCAL_CONF ]
 then
