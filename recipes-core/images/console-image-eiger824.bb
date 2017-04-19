@@ -12,6 +12,7 @@ IMAGE_INSTALL += " \
 	mouseevents \
 	fallingblocks \
 	ftpsetup \
+	customenv \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"
