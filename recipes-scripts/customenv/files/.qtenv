@@ -1,0 +1,4 @@
+export QT_QPA_PLATFORM=eglfs
+export QT_QPA_EGLFS_PHYSICAL_WIDTH=155
+export QT_QPA_EGLFS_PHYSICAL_HEIGHT=86
+export QT_IM_MODULE=qtvirtualkeyboard
