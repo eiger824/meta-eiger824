@@ -15,7 +15,7 @@ RDEPENDS_${PN} += "bash"
 do_install() {
 	install -d -m 0755 ${D}/home/root
 	install -m 0755 certgen.sh ${D}/home/root/certgen.sh 
-	install -m 0755 nginx.conf ${D}/home/root/nginx.conf
+	install -m 0644 nginx.conf ${D}/home/root/nginx.conf
 }
 
 FILES_${PN} += " \
