@@ -24,10 +24,9 @@ This layer depends on:
 Patches
 =======
 
-Please submit any patches against the eiger824 layer to the
-xxxx mailing list (xxxx@zzzz.org) and cc: the maintainer:
+Please submit any patches against the eiger824 layer to the maintainer:
 
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+Maintainer: Santi Pagola <santipagola@hotmail.com>
 
 
 Table of Contents
@@ -35,7 +34,7 @@ Table of Contents
 
   I. Adding the eiger824 layer to your build
  II. Misc
-
+III. Other Changes
 
 I. Adding the eiger824 layer to your build
 =================================================
@@ -61,4 +60,11 @@ other layers needed. e.g.:
 II. Misc
 ========
 
---- replace with specific information about the eiger824 layer ---
+This layer adds some custom scripts that I usually like to have in my distros.
+
+III. Other Changes
+==================
+
+Since I use systemd, I don't want to support compatibility with SysV and hence
+I had to comment out a post-installation function in meta/recipes-core/systemd/systemd-compat-units.bb
+which caused some services to be masked.
