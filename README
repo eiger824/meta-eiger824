@@ -16,9 +16,9 @@ This layer depends on:
   layers: meta
   branch: master
 
-  URI: git://git.yoctoproject.org/xxxx
-  layers: xxxx
-  branch: master
+  URI: https://github.com/jumpnow/meta-rpi
+  layers: meta-rpi
+  branch: morty
 
 
 Patches
