@@ -12,7 +12,7 @@ then
 else
 	while(true)
 	do
-		echo "key and/or domain files exist. replace? [y/n]:"
+		echo -n "key and/or domain files exist. replace? [y/n]:"
 		read ans
 		case $ans in
 		y|Y)
@@ -22,6 +22,7 @@ else
 		;;
 		n|N)
 			echo "Aborting ..."
+			break;
 		;;
 		*)
 			echo "Wrong option"
