@@ -40,7 +40,7 @@ echo -n "Copying boot files to first partition (hit any key to continue)"
 read foo
 
 cd $BOOTSCRIPTDIR
-./copy_boot.sh sdb
+./copy_boot-rpi2.sh sdb
 
 cd $SCRIPTDIR
 echo -n "Copying rootfs to second partition (hit any key to continue)"
