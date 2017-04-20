@@ -7,6 +7,8 @@ S = "${WORKDIR}"
 
 SRC_URI = "file://ftpsetup.sh"
 
+RDEPENDS_${PN} += "bash"
+
 do_install() {
 	install -d -m 0755 ${D}/${sysconfdir}
 	install -m 0755 ftpsetup.sh ${D}/${sysconfdir}/ftpsetup.sh
