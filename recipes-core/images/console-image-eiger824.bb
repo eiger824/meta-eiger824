@@ -14,6 +14,7 @@ IMAGE_INSTALL += " \
 	ftpsetup \
 	customenv \
 	mysland-web \
+	certgen \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"
