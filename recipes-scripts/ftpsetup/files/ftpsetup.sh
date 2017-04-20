@@ -6,6 +6,7 @@ MOUNTPOINT="/media/ftpserver"
 SERVERDEVADDR="/dev/sda"
 SERVERPARTADDR="/dev/sda2"
 
+FTPCONFFILE="/etc/vsftpd.conf"
 FTPUSERLIST="/etc/vsftpd.user_list"
 FTPGROUP="warriors"
 
@@ -204,39 +205,73 @@ else
 	echo "User $FTPUSER is already a member of this list, skipping ..."
 fi
 
-while(true)
-do
-	echo -e "----------------------\nAdd following lines to /etc/vsftpd.conf:"
-	echo -e "\tchroot_local_user=YES"
-	echo -e "\tlocal_root=/media/ftpserver/FTPServer/\$USER"
-	echo -e "\tuser_sub_token=\$USER"
-	echo -e "\tuserlist_deny=NO"
-	echo -e "----------------------"
 
-	echo -n "Done? [y/n]: "
-	read ans
-	case $ans in
-		y)
-			echo "Configuring..."
-			echo -e "\tChanging mode to parent dir ..."
-			chmod 770 $MOUNTPOINT/FTPServer
-			echo -e "\tChanging mode to chroot dir ..."
-			chmod 740 $MOUNTPOINT/FTPServer/$FTPUSER
-			echo -e "\tChanging ownership for user '$FTPUSER'"
-			chown -R $FTPUSER:$FTPGROUP $MOUNTPOINT/FTPServer/$FTPUSER
-			echo -e "\tAdding '$FTPUSER' to group '$FTPGROUP'"
-			usermod -G $FTPGROUP $FTPUSER
-			echo -e "\tRestarting vsftpd service ..."
-			systemctl restart vsftpd
-			echo "Done!"
-			break
-			;;
-		n)
-			echo "Edit /etc/vsftpd.conf file with the proposed lines ..."
-			;;
-		*)
-			echo "Wrong option"
-			;;
-			
-	esac
-done
+#######################################################################
+# Apply the changes to the vsftpd conf file
+if [[ ! -z $(grep "^userlist_deny" $FTPCONFFILE) ]]
+then
+        # Now we want to check if it is correct or not (we want NO)
+        ENABLED=`grep "^userlist_deny" $FTPCONFFILE | cut -d"=" -f2`
+        if [ "$ENABLED" == "YES" ]
+        then
+                echo "`cat $FTPCONFFILE | sed -e 's/userlist_deny='$ENABLED'/userlist_deny=NO/g'`" > $FTPCONFFILE
+        fi
+else
+        # Then simply append it at the end
+        echo 'userlist_deny=NO' >> $FTPCONFFILE
+fi
+
+if [[ ! -z $(grep "^chroot_local_user" $FTPCONFFILE) ]]
+then
+        # Now we want to check if it is correct or not (we want YES)
+        ENABLED=`grep "^chroot_local_user" $FTPCONFFILE | cut -d"=" -f2`
+        if [ "$ENABLED" == "NO" ]
+        then
+                echo "`cat $FTPCONFFILE | sed -e 's/chroot_local_user='$ENABLED'/chroot_local_user=YES/g'`" > $FTPCONFFILE
+        fi
+else
+        # Then simply append it at the end
+        echo 'chroot_local_user=YES' >> $FTPCONFFILE
+fi
+
+if [[ ! -z $(grep "^local_root" $FTPCONFFILE) ]]
+then
+        # Now we want to check if it is correct or not (we want YES)
+        DIR=`grep "^local_root" $FTPCONFFILE | cut -d"=" -f2`
+        if [ "$DIR" != "$MOUNTPOINT/FTPServer/\$USER" ]
+        then
+                echo "`cat $FTPCONFFILE | sed -e '/^local_root/d'`" > $FTPCONFFILE
+                echo 'local_root='$MOUNTPOINT'/FTPServer/$USER' >> $FTPCONFFILE
+        fi
+else
+        # Then simply append it at the end
+        echo 'local_root='$MOUNTPOINT'/FTPServer/$USER' >> $FTPCONFFILE
+fi
+
+if [[ ! -z $(grep "^user_sub_token" $FTPCONFFILE) ]]
+then
+        # Now we want to check if it is correct or not (we want YES)
+        TOKEN=`grep "^user_sub_token" $FTPCONFFILE | cut -d"=" -f2`
+        if [ "$TOKEN" != "\$USER" ]
+        then
+                echo "`cat $FTPCONFFILE | sed -e '/^user_sub_token/d'`" > $FTPCONFFILE
+                echo 'user_sub_token=$USER' >> $FTPCONFFILE
+        fi
+else
+        # Then simply append it at the end
+        echo 'user_sub_token=$USER' >> $FTPCONFFILE
+fi
+#######################################################################
+
+echo "Configuring..."
+echo -e "\tChanging mode to parent dir ..."
+chmod 770 $MOUNTPOINT/FTPServer
+echo -e "\tChanging mode to chroot dir ..."
+chmod 740 $MOUNTPOINT/FTPServer/$FTPUSER
+echo -e "\tChanging ownership for user '$FTPUSER'"
+chown -R $FTPUSER:$FTPGROUP $MOUNTPOINT/FTPServer/$FTPUSER
+echo -e "\tAdding '$FTPUSER' to group '$FTPGROUP'"
+usermod -G $FTPGROUP $FTPUSER
+echo -e "\tRestarting vsftpd service ..."
+systemctl restart vsftpd
+echo "Done!"
