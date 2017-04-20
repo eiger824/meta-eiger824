@@ -21,7 +21,7 @@ else
 		break
 		;;
 		n|N)
-			echo "Aborting ..."
+			echo "Aborting ..." &> /dev/null
 			break;
 		;;
 		*)
@@ -32,12 +32,30 @@ else
 fi
 
 # Last check, to see if generated names match https server
-if [ -z $(grep `basename $KEY` nginx.conf) ] || [ -z $(grep `basename $CERT` nginx.conf) ]
+if [[ -z $(grep `basename $KEY` nginx.conf) ]] || [[ -z $(grep `basename $CERT` nginx.conf) ]]
 then
 	echo "Check that the generated key/cert matches the name in nginx.conf file"
 	exit 1
 else
-	# Match, then copy nginx.conf to /etc/nginx
-	cp ./nginx.conf /etc/nginx
-	echo 'Copied custom nginx.conf to /etc/nginx'
+	while (true)
+	do
+		echo -n "Copy nginx.conf to /etc/nginx? [y/n] :"
+		read ans
+		case $ans in
+		y|Y)
+			# Match, then copy nginx.conf to /etc/nginx
+			cp ./nginx.conf /etc/nginx
+			echo 'Copied custom nginx.conf to /etc/nginx. Restarting nginx ...'
+			systemctl restart nginx
+			break
+		;;
+		n|N)
+			echo "Aborting ..." &> /dev/null
+			break
+		;;
+		*)
+			echo "Wrong option"
+		;;
+		esac
+	done
 fi
