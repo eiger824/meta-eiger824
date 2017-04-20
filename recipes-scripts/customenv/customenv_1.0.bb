@@ -11,7 +11,12 @@ SRC_URI = " \
 	   "
 
 do_install() {
-	install -d -m 0755 ${D}/home/root
-	install -m 0755 .bashrc ${D}/home/root/.bashrc
-	install -m 0755 .qtenv ${D}/home/root/.qtenv
+	install -d -m 0644 ${D}/home/root
+	install -m 0644 .bashrc ${D}/home/root/.bashrc
+	install -m 0644 .qtenv ${D}/home/root/.qtenv
 }
+
+FILES_${PN} += " \
+		/home/root/.qtenv \
+		/home/root/.bashrc \
+		"	

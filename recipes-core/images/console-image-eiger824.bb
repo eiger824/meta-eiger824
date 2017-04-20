@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
 	fallingblocks \
 	ftpsetup \
 	customenv \
+	mysland-web \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"
