@@ -16,5 +16,5 @@ alias l='ls $LS_OPTIONS -lA'
 
 if [ -f ${HOME}/.qtenv ]
 then
-	. .qtenv
+	. ${HOME}/.qtenv
 fi

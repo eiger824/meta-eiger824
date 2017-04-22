@@ -16,6 +16,7 @@ IMAGE_INSTALL += " \
 	mysland-web \
 	certgen \
 	wlan-setup \
+	tcp-server \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"

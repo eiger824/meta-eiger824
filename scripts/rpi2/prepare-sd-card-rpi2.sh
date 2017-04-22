@@ -8,7 +8,7 @@ if [ "$(basename $(pwd))" != "build-rpi2" ];then
 else
     THISDIR=$(pwd)
     SCRIPTDIR=$THISDIR/../meta-rpi/scripts
-    BOOTSCRIPTDIR=$THISDIR/../meta-eiger824/scripts
+    BOOTSCRIPTDIR=$THISDIR/../meta-eiger824/scripts/rpi2
 fi
 
 cd $SCRIPTDIR
