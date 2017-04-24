@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 S = "${WORKDIR}"
 
-PR = "r2"
+PR = "r3"
 
 SRC_URI = " \
 	file://rpi-tcp-server.c \
@@ -36,7 +36,7 @@ do_install() {
 FILES_${PN} += " \
 		rpi-tcp-server \
 		${systemd_system_unitdir}/tcp-server.service \
-		${D}/${localstatedir}/volatile/log/tcp-server/server.log \
+		${localstatedir}/volatile/log/tcp-server/server.log \
 		"
 
 pkg_postinst_${PN} () {
