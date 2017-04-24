@@ -7,6 +7,10 @@ alias areq='if [[ -z $(diff $1 $2) ]]; then echo YES; else echo NO;fi'
 alias ft='for file in $(ls); do echo -n "[$file]"; file $file | cut -d":" -f2-; done'
 alias count='wc -l'
 
+# Variants of greps
+alias wgrep='grep -w'
+alias igrep='grep -i'
+alias vgrep='grep -v'
 
 export LS_OPTIONS='--color=auto'
 eval `dircolors`
