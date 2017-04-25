@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/rpi-tcp-server > /var/log/rpi-tcp-server/server.log 2&>1
+ExecStart=/usr/bin/rpi-tcp-server -l
 
 [Install]
 WantedBy=multi-user.target
