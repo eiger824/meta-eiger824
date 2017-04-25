@@ -11,6 +11,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "strutils.h"
+
 // Will control if log option is enabled. Default: disabled
 bool log = false;
 const char* logfile = "/var/log/tcp-server/server.log";
@@ -74,6 +76,22 @@ void error(char *msg)
 	exit(1);
 }
 
+void logger(char* msg, bool err)
+{
+	if (err)
+	{
+		error(msg);
+	} else
+	{	
+		char buf[200];
+		strcpy(buf, msg);
+		strcat(buf, "\n");
+		printf(buf);
+	}
+	if (log)
+		log2file(msg);
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -88,18 +106,19 @@ int main(int argc, char *argv[])
 		switch(c)
 		{
 			case 'l':
-				printf("Will log to file\n");
+				logger("Will log to file",0);
 				log=true;
 			break;
 			case 'p':
 				portno = atoi(optarg);
-				printf("Will listen on custom input port: %d\n",portno);
+				logger(msg_app_int("Will listen on custom input port: %d\n", portno),0);
 			break;
 			case 'h':
 				help(argv[0]);
 				exit(0);
 			default:
-				error("Unknown option");
+				//error("Unknown option");
+				logger("Unknown option",1);
 				help(argv[0]);
 				exit(1);
 		}
@@ -107,7 +126,7 @@ int main(int argc, char *argv[])
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) 
-		error("ERROR opening socket");
+		logger("ERROR opening socket",1);
 	bzero((char *) &serv_addr, sizeof(serv_addr));
 
 	serv_addr.sin_family = AF_INET;
@@ -115,34 +134,29 @@ int main(int argc, char *argv[])
 	serv_addr.sin_port = htons(portno);
 	if (bind(sockfd, (struct sockaddr *) &serv_addr,
 				sizeof(serv_addr)) < 0) 
-		error("ERROR on binding");
+		logger("ERROR on binding",1);
 	listen(sockfd,5);
-	printf("Starting server, listening on port %d ... \n", portno);
-	if (log)
-		log2file("Starting server, listening on port");
+	logger(msg_app_int("Starting server, listening on port %d ...", portno),0);
 	clilen = sizeof(cli_addr);
 	while(1) {
 		newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
 		if (newsockfd < 0) 
-			error("ERROR on accept");
+			logger("ERROR on accept",1);
 		bzero(buffer,256);
 		n = read(newsockfd,buffer,255);
-		if (n < 0) error("ERROR reading from socket");
+		if (n < 0) logger("ERROR reading from socket",1);
 		buffer[strlen(buffer)-1] = 0;
-		printf("Received command: [%s]\n",buffer);
-		if (log)
-			log2file(construct("Received command:",buffer));
-
+		logger(msg_app_string("Received command: [%s]", buffer), 0);
+		//printf("Received command: [%s]\n",buffer);
+	
 		if (!strcmp(buffer,"quit"))
 		{
 			close(sockfd);
-			printf("Close command received. Closing...\n");
-			if (log)
-				log2file("Close command received. Closing ...");
+			logger("Close command received. Closing...", 0);
 			return 0;
 		}
 		n = write(newsockfd,"OK.",3);
-		if (n < 0) error("ERROR writing to socket");
+		if (n < 0) logger("ERROR writing to socket",1);
 	}
 	return 0; 
 }
