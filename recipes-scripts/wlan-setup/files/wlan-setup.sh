@@ -62,5 +62,5 @@ wpa_cli reconfigure
 
 # Add route to routing table!
 echo "Adding route ..."
-route add default gw 192.168.0.1
+route add default gw 192.168.0.1 wlan0
 echo "Adding route ... [ok]"

@@ -9,6 +9,7 @@ PR = "r4"
 
 SRC_URI = " \
 	file://rpi-tcp-server.c \
+	file://strutils.h \
 	file://Makefile \
 	file://tcp-server.service \
 	file://tcp-server-volatile.conf \
