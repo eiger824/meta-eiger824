@@ -37,26 +37,4 @@ if [[ -z $(grep `basename $KEY` $CONFFILE) ]] || [[ -z $(grep `basename $CERT` $
 then
 	echo "Check that the generated key/cert matches the name in nginx.conf file"
 	exit 1
-else
-	while (true)
-	do
-		echo -n "Copy nginx.conf to /etc/nginx? [y/n] :"
-		read ans
-		case $ans in
-		y|Y)
-			# Match, then copy nginx.conf to /etc/nginx
-			cp ./nginx.conf /etc/nginx
-			echo 'Copied custom nginx.conf to /etc/nginx. Restarting nginx ...'
-			systemctl restart nginx
-			break
-		;;
-		n|N)
-			echo "Aborting ..." &> /dev/null
-			break
-		;;
-		*)
-			echo "Wrong option"
-		;;
-		esac
-	done
 fi
