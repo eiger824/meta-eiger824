@@ -60,7 +60,17 @@ fi
 echo "Forcing connection ..."
 wpa_cli reconfigure
 
+# Sleep animation while waiting for IP
+for i in `seq 1 10`
+do
+	echo -ne "\rAdding route "
+	for j in `seq 1 $i`
+	do
+		echo -n "* "
+	done
+	sleep 1
+done
+echo
 # Add route to routing table!
-echo "Adding route ..."
 route add default gw 192.168.0.1 wlan0
 echo "Adding route ... [ok]"

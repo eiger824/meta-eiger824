@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 S = "${WORKDIR}"
 
+PR = "r1"
+
 SRC_URI = "file://wlan-setup.sh"
 
 RDEPENDS_${PN} += "bash"
