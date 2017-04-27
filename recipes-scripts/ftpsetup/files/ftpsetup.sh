@@ -57,7 +57,7 @@ do
 				echo "Removing $FTPUSER's dir in FTP server ..."
 				rm -rf $MOUNTPOINT/FTPServer/$FTPUSER
 				echo "Removing '$FTPUSER' from $FTPUSERLIST"
-				echo "`cat $FTPUSERLIST | sed -e 's/'$FTPUSER'//' -e '/^\s*$/d'`" > $FTPUSERLIST
+				sed -i -e 's/'$FTPUSER'//' -e '/^\s*$/d' $FTPUSERLIST
 				echo "Done!"
 				exit 0
 			else
@@ -214,7 +214,7 @@ then
         ENABLED=`grep "^userlist_deny" $FTPCONFFILE | cut -d"=" -f2`
         if [ "$ENABLED" == "YES" ]
         then
-                echo "`cat $FTPCONFFILE | sed -e 's/userlist_deny='$ENABLED'/userlist_deny=NO/g'`" > $FTPCONFFILE
+		sed -i -e 's/userlist_deny='$ENABLED'/userlist_deny=NO/g' $FTPCONFFILE
         fi
 else
         # Then simply append it at the end
@@ -227,7 +227,7 @@ then
         ENABLED=`grep "^chroot_local_user" $FTPCONFFILE | cut -d"=" -f2`
         if [ "$ENABLED" == "NO" ]
         then
-                echo "`cat $FTPCONFFILE | sed -e 's/chroot_local_user='$ENABLED'/chroot_local_user=YES/g'`" > $FTPCONFFILE
+		sed -i -e 's/chroot_local_user='$ENABLED'/chroot_local_user=YES/g' $FTPCONFFILE
         fi
 else
         # Then simply append it at the end
@@ -240,7 +240,7 @@ then
         DIR=`grep "^local_root" $FTPCONFFILE | cut -d"=" -f2`
         if [ "$DIR" != "$MOUNTPOINT/FTPServer/\$USER" ]
         then
-                echo "`cat $FTPCONFFILE | sed -e '/^local_root/d'`" > $FTPCONFFILE
+		sed -i -e '/^local_root/d' $FTPCONFFILE
                 echo 'local_root='$MOUNTPOINT'/FTPServer/$USER' >> $FTPCONFFILE
         fi
 else
@@ -254,7 +254,7 @@ then
         TOKEN=`grep "^user_sub_token" $FTPCONFFILE | cut -d"=" -f2`
         if [ "$TOKEN" != "\$USER" ]
         then
-                echo "`cat $FTPCONFFILE | sed -e '/^user_sub_token/d'`" > $FTPCONFFILE
+		sed -i -e '/^user_sub_token/d' $FTPCONFFILE
                 echo 'user_sub_token=$USER' >> $FTPCONFFILE
         fi
 else
