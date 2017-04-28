@@ -61,7 +61,7 @@ echo "Forcing connection ..."
 wpa_cli reconfigure
 
 # Sleep animation while waiting for IP
-for i in `seq 1 10`
+for i in `seq 1 20`
 do
 	echo -ne "\rAdding route "
 	for j in `seq 1 $i`
