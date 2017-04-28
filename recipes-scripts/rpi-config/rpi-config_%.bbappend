@@ -7,5 +7,7 @@ do_deploy_append() {
 		echo "disable_splash=1" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 		echo "# Rotate lcd 180 degrees" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 		echo "lcd_rotate=2" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+		echo "# Overlay for touchscreen driver" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+		echo "dtoverlay=rpi-ft5406" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 	fi
 }
