@@ -155,7 +155,14 @@ int main(int argc, char *argv[])
 			logger("Close command received. Closing...", 0);
 			return 0;
 		}
-		n = write(newsockfd,"OK.",3);
+		else if (!strcmp(buffer,"ping"))
+		{
+			n = write(newsockfd, "pong", 4);
+		}
+		else
+		{
+			n = write(newsockfd,"OK.",3);
+		}
 		if (n < 0) logger("ERROR writing to socket",1);
 	}
 	return 0; 
