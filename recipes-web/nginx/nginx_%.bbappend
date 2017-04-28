@@ -15,4 +15,12 @@ FILES_{PN} += " \
 	${sysconfdir}/nginx/.htpasswd \
 	"
 
-
+# Enable the service
+pkg_postinst_${PN}() {
+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+                if [ -n "$D" ]; then
+                        OPTS="--root=$D"
+                fi
+                systemctl $OPTS enable nginx.service
+        fi	
+}
