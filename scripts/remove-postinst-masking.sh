@@ -1,6 +1,7 @@
 #!/bin/bash
 
 METADIR="${HOME}/poky-morty/meta"
+METAOEDIR="${HOME}/poky-morty/meta-openembedded"
 
 FILES="${METADIR}/recipes-bsp/keymaps/keymaps_*.bb \
 	${METADIR}/recipes-bsp/v86d/v86d_*.bb \
@@ -8,7 +9,8 @@ FILES="${METADIR}/recipes-bsp/keymaps/keymaps_*.bb \
 	${METADIR}/recipes-core/initscripts/initscripts_*.bb \
 	${METADIR}/recipes-core/psplash/psplash_*.bb \
 	${METADIR}/recipes-core/systemd/systemd-compat-units.bb \
-	${METADIR}/recipes-kernel/modutils-initscripts/modutils-initscripts.bb"
+	${METADIR}/recipes-kernel/modutils-initscripts/modutils-initscripts.bb \
+	${METAOEDIR}/meta-webserver/recipes-httpd/nginx/nginx.inc"
 
 
 echo -e ' \nThis script will loop through some files where certain systemd
