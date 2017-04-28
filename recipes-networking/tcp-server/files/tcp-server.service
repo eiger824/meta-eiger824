@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=idle
 ExecStart=/usr/bin/rpi-tcp-server -l
-ExecStop=/bin/kill -9 $(pidof rpi-tcp-server)
+ExecStop=/bin/kill -9 $MAINPID
 
 [Install]
 WantedBy=multi-user.target
