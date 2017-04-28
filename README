@@ -66,5 +66,5 @@ III. Other Changes
 ==================
 
 Since I use systemd, I don't want to support compatibility with SysV and hence
-I had to comment out a post-installation function in meta/recipes-core/systemd/systemd-compat-units.bb
-which caused some services to be masked.
+I use the script ${LAYERDIR}/scripts/remove-postinst-masking.sh to remove the
+postinst method which caused some services to be masked.
