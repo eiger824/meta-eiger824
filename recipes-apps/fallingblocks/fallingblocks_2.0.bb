@@ -7,6 +7,8 @@ DEPENDS += "qtbase"
 
 S = "${WORKDIR}/fallingblocks-${PV}"
 
+PR = "r2"
+
 SRC_URI = "git://github.com/eiger824/FallingBlocks.git;protocol=https;destsuffix=fallingblocks-${PV};branch=embedded"
 
 SRCREV_pn-fallingblocks= "embedded"
@@ -14,7 +16,13 @@ SRCREV_pn-fallingblocks= "embedded"
 inherit qmake5
 
 do_install() {
-	install -d -m 0755 ${D}/${bindir}
-	install -m 0755 fallingblocks ${D}/${bindir}/fallingblocks
+	install -d -m 0755 ${D}/${bindir}/apps/fallingblocks
+	install -m 0755 fallingblocks ${D}/${bindir}/apps/fallingblocks/fallingblocks
+	install -d -m 0755 ${D}/${bindir}/apps/fallingblocks/images
+	install -m 0755 ${S}/images/* ${D}/${bindir}/apps/fallingblocks/images/
 }
 
+FILES_${PN} += " \
+	${bindir}/apps/fallingblocks/fallingblocks \
+	${bindir}/apps/fallingblocks/images \
+	"
