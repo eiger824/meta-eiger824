@@ -130,12 +130,15 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Renaming overlay dtbs to dtbos"
-for file in `ls /media/card/overlays/`
+THISDIR=$(pwd)
+cd /media/card/overlays
+for file in `ls`
 do
 	n=`echo $file | sed -e 's/'${IMAGETYPE}'-//g' -e 's/-overlay//g' -e 's/dtb/dtbo/g'`
 	echo "$file --> $n"
-	mv $file $n
+	sudo mv $file $n
 done
+cd ${THISDIR}
 
 echo "Copying dtbs"
 for f in ${DTBS}; do
