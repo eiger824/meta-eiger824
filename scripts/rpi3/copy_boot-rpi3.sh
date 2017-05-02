@@ -130,7 +130,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Renaming overlay dtbs to dtbos"
-for file in `ls /media/card/overlays/*`
+for file in `ls /media/card/overlays/`
 do
 	n=`echo $file | sed -e 's/'${IMAGETYPE}'-//g' -e 's/-overlay//g' -e 's/dtb/dtbo/g'`
 	echo "$file --> $n"
