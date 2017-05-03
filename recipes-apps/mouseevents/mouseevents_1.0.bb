@@ -7,6 +7,8 @@ DEPENDS += "qtbase"
 
 S = "${WORKDIR}/mouseevents-${PV}"
 
+PR = "r1"
+
 SRC_URI = "git://github.com/eiger824/mouseevents.git;protocol=https;destsuffix=mouseevents-${PV}"
 
 SRCREV_pn-mouseevents = "master"
@@ -14,7 +16,12 @@ SRCREV_pn-mouseevents = "master"
 inherit qmake5
 
 do_install() {
-	install -d -m 0755 ${D}/${bindir}
-	install -m 0755 mouseevents ${D}/${bindir}/mouseevents
+	install -d -m 0755 ${D}/${bindir}/apps/mouseevents
+	install -m 0755 mouseevents ${D}/${bindir}/apps/mouseevents/mouseevents
 }
+
+FILES_${PN} += " \
+	${bindir}/apps/mouseevents/mouseevents \
+	"
+
 

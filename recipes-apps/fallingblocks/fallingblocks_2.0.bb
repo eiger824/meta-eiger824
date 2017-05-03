@@ -7,7 +7,7 @@ DEPENDS += "qtbase"
 
 S = "${WORKDIR}/fallingblocks-${PV}"
 
-PR = "r2"
+PR = "r7"
 
 SRC_URI = "git://github.com/eiger824/FallingBlocks.git;protocol=https;destsuffix=fallingblocks-${PV};branch=embedded"
 

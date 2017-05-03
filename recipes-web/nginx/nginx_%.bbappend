@@ -11,7 +11,7 @@ do_install_append() {
 }
 
 # And ship our file
-FILES_{PN} += " \
+FILES_${PN} += " \
 	${sysconfdir}/nginx/.htpasswd \
 	"
 
