@@ -7,6 +7,8 @@ DEPENDS += "qtbase"
 
 S = "${WORKDIR}/simplelogin-${PV}"
 
+PR = "r2"
+
 SRC_URI = "git://github.com/eiger824/simplelogin.git;protocol=https;destsuffix=simplelogin-${PV}"
 
 SRCREV_pn-simplelogin = "master"
