@@ -3,16 +3,22 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += " \
 	file://.htpasswd \
+	file://mysland.key \
+	file://mysland.pem \
 	"
 
-# Install our generated file to /etc/nginx dir
+# Install our generated file and certificates to /etc/nginx dir
 do_install_append() {
-	install -m 0755 ${WORKDIR}/.htpasswd ${D}/${sysconfdir}/nginx/.htpasswd
+	install -m 0644 ${WORKDIR}/.htpasswd ${D}/${sysconfdir}/nginx/.htpasswd
+	install -m 0644 ${WORKDIR}/mysland.key ${D}/${sysconfdir}/nginx/mysland.key
+	install -m 0644 ${WORKDIR}/mysland.pem ${D}/${sysconfdir}/nginx/mysland.pem
 }
 
 # And ship our file
 FILES_${PN} += " \
 	${sysconfdir}/nginx/.htpasswd \
+	${sysconfdir}/nginx/mysland.key \
+	${sysconfdir}/nginx/mysland.pem \
 	"
 
 # Enable the service
