@@ -6,6 +6,8 @@ LICENSE = "MIT"
 
 require ${HOME}/poky-morty/meta-rpi/images/qt5-image.bb
 
+SPLASH = "psplash-eiger824"
+
 IMAGE_INSTALL += " \
 	dummy \
 	demotouch \
