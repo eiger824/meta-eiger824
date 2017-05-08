@@ -28,3 +28,6 @@ fi
 
 # Opkg related
 alias ouu='opkg update && opkg upgrade'
+
+# Workaround with D-Bus setup
+export $(dbus-launch)
