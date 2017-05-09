@@ -26,6 +26,8 @@ then
 	. ${HOME}/.qtenv
 fi
 
+# Sort env
+alias env='env | sort'
 # Opkg related
 alias ouu='opkg update && opkg upgrade'
 
