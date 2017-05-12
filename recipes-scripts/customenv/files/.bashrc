@@ -36,6 +36,8 @@ then
 	unset QT_IM_MODULE
 fi
 
+# Sort env
+alias env='env | sort'
 # Opkg related
 alias ouu='opkg update && opkg upgrade'
 

@@ -269,6 +269,7 @@ chmod 770 $MOUNTPOINT/FTPServer
 echo -e "\tChanging mode to chroot dir ..."
 chmod 740 $MOUNTPOINT/FTPServer/$FTPUSER
 echo -e "\tChanging ownership for user '$FTPUSER'"
+chown -R $FTPUSER:$FTPGROUP $MOUNTPOINT/FTPServer
 chown -R $FTPUSER:$FTPGROUP $MOUNTPOINT/FTPServer/$FTPUSER
 echo -e "\tAdding '$FTPUSER' to group '$FTPGROUP'"
 usermod -G $FTPGROUP $FTPUSER
