@@ -18,7 +18,6 @@ SRC_URI = " \
 TARGET_CC_ARCH += "${LDFLAGS}" 
 
 do_compile() {
-	echo "MAKE IS ${MAKE}"
 	${MAKE} rpi-tcp-server
 }
 
