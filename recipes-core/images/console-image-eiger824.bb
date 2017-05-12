@@ -10,6 +10,7 @@ SPLASH = "psplash-eiger824"
 
 IMAGE_INSTALL += " \
 	dummy \
+	apploader \
 	demotouch \
 	mouseevents \
 	fallingblocks \
@@ -19,7 +20,6 @@ IMAGE_INSTALL += " \
 	certgen \
 	wlan-setup \
 	tcp-server \
-	simplelogin \
 	"
 
 export IMAGE_BASENAME = "console-image-eiger824"
